@@ -9,7 +9,7 @@ class LoginPresenter: LoginContract.Presenter {
         loginView = view
     }
 
-    override fun destoryView() {
+    override fun destroyView() {
         loginView = null
     }
 

@@ -18,11 +18,10 @@ import dev.aftermoon.firebasepractice.main.presenter.LoginPresenter
 import dev.aftermoon.firebasepractice.util.Util
 import kotlinx.android.synthetic.main.activity_login.*
 
-
-class LoginActivity : BaseActivity(),
-    LoginContract.View {
+class LoginActivity : BaseActivity(), LoginContract.View {
     private lateinit var loginPresenter: LoginPresenter
     private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -34,6 +33,17 @@ class LoginActivity : BaseActivity(),
     override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            val mainIntent = Intent(this, MainActivity::class.java)
+            startActivity(mainIntent)
+            finish()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        loginPresenter.destroyView()
     }
 
     override fun initPresenter() {
@@ -82,7 +92,9 @@ class LoginActivity : BaseActivity(),
                 if (task.isSuccessful) {
                     Log.d("LoginActivity", "Firebase Auth Complete!")
                     Toast.makeText(this, "서버에 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
-                    var user = auth.currentUser
+                    val mainIntent = Intent(this, MainActivity::class.java)
+                    startActivity(mainIntent)
+                    finish()
                 }
                 else {
                     Log.w("LoginActivity", "Firebase Auth Failed!")

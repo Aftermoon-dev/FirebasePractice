@@ -1,8 +1,6 @@
 package dev.aftermoon.firebasepractice.main.presenter
 
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import dev.aftermoon.firebasepractice.R
-
 
 class LoginPresenter: LoginContract.Presenter {
     private var loginView: LoginContract.View? = null

@@ -1,12 +1,13 @@
 package dev.aftermoon.firebasepractice.main.presenter
 
-import com.google.firebase.auth.FirebaseAuth
+import dev.aftermoon.firebasepractice.main.model.FirebaseUserModel
+
 
 class MainPresenter: MainContract.Presenter {
     private var mainView: MainContract.View? = null
     override fun getUserInfo() {
-        val user = FirebaseAuth.getInstance().currentUser
-        mainView!!.showUserEmail(user)
+        val userInfo = FirebaseUserModel.getUserInfo()
+        mainView!!.showUserInfo(userInfo)
     }
 
     override fun createView(view: MainContract.View) {

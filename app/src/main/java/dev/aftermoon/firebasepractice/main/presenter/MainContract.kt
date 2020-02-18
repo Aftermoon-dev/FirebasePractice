@@ -1,12 +1,12 @@
 package dev.aftermoon.firebasepractice.main.presenter
 
-import com.google.firebase.auth.FirebaseUser
 import dev.aftermoon.firebasepractice.BasePresenter
 import dev.aftermoon.firebasepractice.BaseView
+import dev.aftermoon.firebasepractice.main.model.FirebaseUserInfo
 
 interface MainContract {
     interface View: BaseView {
-        fun showUserEmail(userInfo: FirebaseUser?)
+        fun showUserInfo(userInfo: List<FirebaseUserInfo>)
     }
 
     interface Presenter: BasePresenter<View> {

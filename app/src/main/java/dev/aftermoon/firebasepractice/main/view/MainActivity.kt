@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import dev.aftermoon.firebasepractice.BaseActivity
 import dev.aftermoon.firebasepractice.R
+import dev.aftermoon.firebasepractice.main.model.FirebaseUserInfo
 import dev.aftermoon.firebasepractice.main.presenter.MainContract
 import dev.aftermoon.firebasepractice.main.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,8 +29,8 @@ class MainActivity : BaseActivity(), MainContract.View {
         mainPresenter = MainPresenter()
     }
 
-    override fun showUserEmail(userInfo: FirebaseUser?) {
-        Log.d("MainActivity", "${userInfo?.displayName} / ${userInfo?.email}")
-        emailAddress.text = "Display Name : ${userInfo?.displayName}\nEmail : ${userInfo?.email}"
+    override fun showUserInfo(userInfo: List<FirebaseUserInfo>) {
+        Log.d("MainActivity", "${userInfo[0].displayName} / ${userInfo[0].email}")
+        emailAddress.text = "Display Name : ${userInfo[0].displayName}\nEmail : ${userInfo[0].email}"
     }
 }

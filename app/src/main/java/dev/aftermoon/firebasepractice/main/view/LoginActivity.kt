@@ -32,9 +32,8 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
 
-        if (currentUser != null) {
+        if (loginPresenter.getAlreadyLogin()) {
             val mainIntent = Intent(this, MainActivity::class.java)
             startActivity(mainIntent)
             finish()
@@ -52,11 +51,11 @@ class LoginActivity : BaseActivity(), LoginContract.View {
 
     private fun setButton() {
         sign_in_button.setOnClickListener {
-            loginPresenter.getGSO(getString(R.string.default_web_client_id))
+            loginPresenter.googleLogin(getString(R.string.default_web_client_id))
         }
     }
 
-    override fun showGoogleLogin(gso: GoogleSignInOptions) {
+    override fun setGoogleLogin(gso: GoogleSignInOptions) {
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
         val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, Util.RC_SIGN_IN)
@@ -84,21 +83,18 @@ class LoginActivity : BaseActivity(), LoginContract.View {
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Log.d("LoginActivity", "Firebase Auth with Google : " + acct.id!!)
-
         val credential =  GoogleAuthProvider.getCredential(acct.idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d("LoginActivity", "Firebase Auth Complete!")
-                    Toast.makeText(this, "서버에 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
                     val mainIntent = Intent(this, MainActivity::class.java)
                     startActivity(mainIntent)
                     finish()
                 }
                 else {
+                    Toast.makeText(this, "서버 로그인에 실패했습니다!", Toast.LENGTH_SHORT).show()
                     Log.w("LoginActivity", "Firebase Auth Failed!")
-                    Toast.makeText(this, "서버와 로그인에 실패하였습니다!", Toast.LENGTH_SHORT).show()
                 }
             }
     }
